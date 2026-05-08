@@ -4,16 +4,16 @@ Dashboard Items Integration
 
 ## Status
 
-In Progress
+Completed
 
 ## Goals
 
 - Create `src/lib/db/items.ts` with data fetching functions. (Done)
 - Fetch items directly in server component from Neon database using Prisma. (Done)
-- Item card icon/border derived from the item type.
-- Display item type tags and anything else currently there.
-- Update collection stats display.
-- Maintain existing UI design and layout.
+- Item card icon/border derived from the item type. (Done)
+- Display item type tags and anything else currently there. (Done)
+- Update collection stats display. (Done)
+- Maintain existing UI design and layout. (Done)
 
 ## Description
 
