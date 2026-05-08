@@ -27,3 +27,4 @@ Completed
 - 2026-05-08: Completed Seeding Sample Data.
 - 2026-05-08: Started Dashboard Data Integration.
 - 2026-05-08: Completed Dashboard Data Integration with real database fetching.
+- 2026-05-08: Verified database integrity with `scripts/test-db.ts`.
