@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -11,28 +10,51 @@ import {
   Star, 
   Clock, 
   Settings, 
-  LayoutDashboard
+  LayoutDashboard,
+  ExternalLink
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, getCollectionTheme } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  ITEM_TYPES, 
-  MOCK_COLLECTIONS, 
-  MOCK_USER 
-} from '@/lib/mock-data';
 
 interface SidebarProps {
   className?: string;
   isCollapsed?: boolean;
   onToggle?: () => void;
+  user: any;
+  itemTypes: any[];
+  favoriteCollections: any[];
+  otherCollections: any[];
 }
 
-export function Sidebar({ className, isCollapsed, onToggle }: SidebarProps) {
+export function Sidebar({ 
+  className, 
+  isCollapsed, 
+  onToggle,
+  user,
+  itemTypes,
+  favoriteCollections,
+  otherCollections 
+}: SidebarProps) {
   const pathname = usePathname();
-  
-  const favoriteCollections = MOCK_COLLECTIONS.filter(c => c.isFavorite);
-  const otherCollections = MOCK_COLLECTIONS.filter(c => !c.isFavorite);
+
+  const typeNameMap: Record<string, string> = {
+    snippet: 'Snippets',
+    prompt: 'Prompts',
+    note: 'Notes',
+    file: 'Files',
+    image: 'Images',
+    link: 'Links',
+    command: 'Commands'
+  };
+
+  const typeOrder = ['snippet', 'prompt', 'note', 'file', 'image', 'link', 'command'];
+
+  const sortedItemTypes = [...itemTypes].sort((a, b) => {
+    const indexA = typeOrder.indexOf(a.name.toLowerCase());
+    const indexB = typeOrder.indexOf(b.name.toLowerCase());
+    return (indexA > -1 ? indexA : 99) - (indexB > -1 ? indexB : 99);
+  });
 
   return (
     <aside className={cn(
@@ -82,13 +104,14 @@ export function Sidebar({ className, isCollapsed, onToggle }: SidebarProps) {
         <div>
           {!isCollapsed && <h3 className="px-3 text-[11px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em] mb-3">Library</h3>}
           <nav className="space-y-1">
-            {ITEM_TYPES.map((type) => {
+            {sortedItemTypes.map((type) => {
               const IconComponent = (LucideIcons as any)[type.icon];
+              const label = typeNameMap[type.name.toLowerCase()] || type.name;
               return (
                 <SidebarItem 
                   key={type.id}
                   href={`/items/${type.name.toLowerCase()}`}
-                  label={type.name}
+                  label={label}
                   icon={IconComponent ? <IconComponent className="h-4 w-4" /> : null}
                   isCollapsed={isCollapsed}
                   color={type.color}
@@ -113,7 +136,7 @@ export function Sidebar({ className, isCollapsed, onToggle }: SidebarProps) {
                   key={col.id}
                   href={`/collections/${col.id}`}
                   label={col.name}
-                  icon={<div className="h-2 w-2 rounded-full bg-primary" />}
+                  icon={<Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />}
                   isCollapsed={isCollapsed}
                 />
               ))}
@@ -122,25 +145,37 @@ export function Sidebar({ className, isCollapsed, onToggle }: SidebarProps) {
         )}
 
         {/* Other Collections */}
-        {!isCollapsed && (
-          <div>
+        <div>
+          {!isCollapsed && (
             <div className="flex items-center justify-between px-3 mb-3">
               <h3 className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em]">Collections</h3>
               <Clock className="h-3 w-3 text-muted-foreground" />
             </div>
-            <nav className="space-y-1">
-              {otherCollections.map((col) => (
+          )}
+          <nav className="space-y-1">
+            {otherCollections.map((col) => {
+              const theme = getCollectionTheme(col);
+              return (
                 <SidebarItem 
                   key={col.id}
                   href={`/collections/${col.id}`}
                   label={col.name}
-                  icon={<div className="h-2 w-2 rounded-full bg-muted-foreground/30" />}
+                  icon={<div className="h-2 w-2 rounded-full" style={{ backgroundColor: theme.color }} />}
                   isCollapsed={isCollapsed}
                 />
-              ))}
-            </nav>
-          </div>
-        )}
+              );
+            })}
+            
+            {/* View all collections link */}
+            <SidebarItem 
+              href="/collections" 
+              label="View all collections" 
+              icon={<ExternalLink className="h-3 w-3" />} 
+              isCollapsed={isCollapsed}
+              className="text-primary/70 hover:text-primary hover:bg-primary/5 mt-2"
+            />
+          </nav>
+        </div>
       </div>
 
       {/* User Area */}
@@ -153,17 +188,17 @@ export function Sidebar({ className, isCollapsed, onToggle }: SidebarProps) {
           isCollapsed ? "justify-center" : ""
         )}>
           <Avatar className="h-10 w-10 border-2 border-background shadow-md">
-            <AvatarImage src={MOCK_USER.avatar} alt={MOCK_USER.name} />
-            <AvatarFallback className="bg-primary/10 text-primary font-bold">{MOCK_USER.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={user.image} alt={user.name} />
+            <AvatarFallback className="bg-primary/10 text-primary font-bold">{user.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           {!isCollapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold leading-none truncate">{MOCK_USER.name}</p>
+              <p className="text-sm font-semibold leading-none truncate">{user.name}</p>
               <p className="text-[11px] text-muted-foreground truncate mt-1.5 flex items-center gap-1.5">
-                {MOCK_USER.isPro && (
+                {user.isPro && (
                   <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[9px] font-bold uppercase tracking-wider">PRO</span>
                 )}
-                {MOCK_USER.email}
+                {user.email}
               </p>
             </div>
           )}
@@ -184,7 +219,8 @@ function SidebarItem({
   label, 
   isActive, 
   isCollapsed,
-  color
+  color,
+  className
 }: { 
   href: string; 
   icon: React.ReactNode; 
@@ -192,6 +228,7 @@ function SidebarItem({
   isActive?: boolean; 
   isCollapsed?: boolean;
   color?: string;
+  className?: string;
 }) {
   return (
     <Link 
@@ -201,7 +238,8 @@ function SidebarItem({
         isActive 
           ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
           : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
-        isCollapsed ? "justify-center" : ""
+        isCollapsed ? "justify-center" : "",
+        className
       )}
     >
       {icon ? (

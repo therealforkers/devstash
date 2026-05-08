@@ -62,6 +62,7 @@ async function main() {
     data: {
       name: 'React Patterns',
       description: 'Reusable React patterns and hooks',
+      isFavorite: true,
       userId: user.id,
       items: {
         create: [
@@ -87,6 +88,7 @@ export function useDebounce<T>(value: T, delay: number): T {
 }`,
             language: 'typescript',
             typeId: itemTypes['snippet'].id,
+            isPinned: true,
             userId: user.id,
           },
           {
@@ -167,6 +169,7 @@ Tabs.Content = function Content({ value, children }) {
     data: {
       name: 'AI Workflows',
       description: 'AI prompts and workflow automations',
+      isFavorite: true,
       userId: user.id,
       items: {
         create: [
@@ -174,6 +177,7 @@ Tabs.Content = function Content({ value, children }) {
             title: 'Code Review Prompt',
             contentType: 'text',
             content: 'Review the following code for potential bugs, performance issues, and adherence to clean code principles. Suggest improvements where necessary.',
+            isPinned: true,
             typeId: itemTypes['prompt'].id,
             userId: user.id,
           },
@@ -227,6 +231,7 @@ volumes:
   postgres_data:`,
             language: 'yaml',
             typeId: itemTypes['snippet'].id,
+            isPinned: true,
             userId: user.id,
           },
           {
@@ -268,6 +273,7 @@ volumes:
             title: 'Git Squash Commits',
             contentType: 'text',
             content: 'git rebase -i HEAD~n',
+            isPinned: true,
             typeId: itemTypes['command'].id,
             userId: user.id,
           },
@@ -309,6 +315,7 @@ volumes:
             title: 'Tailwind CSS Colors',
             contentType: 'text',
             url: 'https://tailwindcss.com/docs/customizing-colors',
+            isPinned: true,
             typeId: itemTypes['link'].id,
             userId: user.id,
           },

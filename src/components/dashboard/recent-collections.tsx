@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { getRecentCollections, getCollectionTheme } from "@/lib/db/collections";
+import { getRecentCollections } from "@/lib/db/collections";
+import { getCollectionTheme } from "@/lib/utils";
 import { getDemoUser } from "@/lib/db/items";
 import { Folder, MoreVertical, Code, Sparkles, Terminal, StickyNote, File, Image as ImageIcon, Link as LinkIcon, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
