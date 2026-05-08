@@ -1,23 +1,23 @@
-
-import { MOCK_ITEMS, ITEM_TYPES } from "@/lib/mock-data";
-import { Code, MessageSquare, FileText, Terminal, File, Image as ImageIcon, Link as LinkIcon, Calendar } from "lucide-react";
+import { getRecentItems, getDemoUser } from "@/lib/db/items";
+import { Code, Sparkles, StickyNote, Terminal, File, Image as ImageIcon, Link as LinkIcon, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 
 const iconMap: Record<string, any> = {
   Code,
-  MessageSquare,
-  FileText,
+  Sparkles,
   Terminal,
+  StickyNote,
   File,
   Image: ImageIcon,
   Link: LinkIcon,
 };
 
-export function RecentItems() {
-  const recentItems = [...MOCK_ITEMS]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10);
+export async function RecentItems() {
+  const user = await getDemoUser();
+  if (!user) return null;
+
+  const recentItems = await getRecentItems(user.id);
 
   return (
     <div className="space-y-4">
@@ -27,14 +27,13 @@ export function RecentItems() {
       <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
         <div className="divide-y divide-border">
           {recentItems.map((item) => {
-            const type = ITEM_TYPES.find((t) => t.id === item.typeId);
-            const Icon = type ? iconMap[type.icon] || FileText : FileText;
+            const Icon = iconMap[item.type.icon || 'File'] || File;
             
             return (
               <div key={item.id} className="group flex items-center justify-between p-4 hover:bg-muted/50 transition-colors cursor-pointer">
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted group-hover:bg-background transition-colors">
-                    <Icon className="h-5 w-5" style={{ color: type?.color }} />
+                    <Icon className="h-5 w-5" style={{ color: item.type.color || undefined }} />
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className="font-medium truncate">{item.title}</span>
@@ -44,15 +43,21 @@ export function RecentItems() {
                         {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
                       </span>
                       <span>•</span>
-                      <span>{type?.name}</span>
+                      <span>{item.type.name}</span>
+                      {item.collection && (
+                        <>
+                          <span>•</span>
+                          <span className="truncate">{item.collection.name}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-4">
                   <div className="hidden sm:flex gap-1">
-                    {item.tags.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-[10px] py-0">
-                        {tag}
+                    {item.tags.slice(0, 2).map((itemTag) => (
+                      <Badge key={itemTag.tagId} variant="outline" className="text-[10px] py-0">
+                        {itemTag.tag.name}
                       </Badge>
                     ))}
                   </div>

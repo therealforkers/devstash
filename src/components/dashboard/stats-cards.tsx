@@ -1,13 +1,24 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MOCK_ITEMS, MOCK_COLLECTIONS } from "@/lib/mock-data";
+import { getItemStats, getDemoUser } from "@/lib/db/items";
+import { getCollectionStats } from "@/lib/db/collections";
 import { Layers, FileText, Heart, FolderHeart } from "lucide-react";
 
-export function StatsCards() {
+export async function StatsCards() {
+  const user = await getDemoUser();
+  
+  if (!user) {
+    return null;
+  }
+
+  const [itemStats, collectionStats] = await Promise.all([
+    getItemStats(user.id),
+    getCollectionStats(user.id),
+  ]);
+
   const stats = [
     {
       title: "Total Items",
-      value: MOCK_ITEMS.length,
+      value: itemStats.totalItems,
       icon: FileText,
       description: "Stored snippets and notes",
       color: "text-blue-500",
@@ -15,7 +26,7 @@ export function StatsCards() {
     },
     {
       title: "Collections",
-      value: MOCK_COLLECTIONS.length,
+      value: collectionStats.totalCollections,
       icon: Layers,
       description: "Organized categories",
       color: "text-purple-500",
@@ -23,7 +34,7 @@ export function StatsCards() {
     },
     {
       title: "Favorite Items",
-      value: MOCK_ITEMS.filter((i) => i.isFavorite).length,
+      value: itemStats.favoriteItems,
       icon: Heart,
       description: "Saved for quick access",
       color: "text-red-500",
@@ -31,7 +42,7 @@ export function StatsCards() {
     },
     {
       title: "Favorite Collections",
-      value: MOCK_COLLECTIONS.filter((c) => c.isFavorite).length,
+      value: collectionStats.favoriteCollections,
       icon: FolderHeart,
       description: "Top priority groups",
       color: "text-amber-500",
