@@ -48,7 +48,7 @@ export function TopBar({ onMenuClick, user }: TopBarProps) {
 
         <div className="flex items-center gap-3 pl-1">
           <Avatar className="h-9 w-9 border border-border shadow-sm">
-            <AvatarImage src={user.image} alt={user.name} />
+            <AvatarImage src={user.image ?? undefined} alt={user.name ?? undefined} />
             <AvatarFallback className="bg-primary/10 text-primary">{user.name?.charAt(0)}</AvatarFallback>
           </Avatar>
         </div>

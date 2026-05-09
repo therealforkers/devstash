@@ -204,7 +204,7 @@ export function Sidebar({
           isCollapsed ? "justify-center" : ""
         )}>
           <Avatar className="h-10 w-10 border-2 border-background shadow-md">
-            <AvatarImage src={user.image} alt={user.name} />
+            <AvatarImage src={user.image ?? undefined} alt={user.name ?? undefined} />
             <AvatarFallback className="bg-primary/10 text-primary font-bold">{user.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           {!isCollapsed && (
