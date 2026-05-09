@@ -16,6 +16,7 @@ import {
 import { cn, getCollectionTheme } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
 interface SidebarProps {
   className?: string;
@@ -107,6 +108,8 @@ export function Sidebar({
             {sortedItemTypes.map((type) => {
               const IconComponent = (LucideIcons as any)[type.icon];
               const label = typeNameMap[type.name.toLowerCase()] || type.name;
+              const isPro = ['file', 'image'].includes(type.name.toLowerCase());
+              
               return (
                 <SidebarItem 
                   key={type.id}
@@ -115,6 +118,14 @@ export function Sidebar({
                   icon={IconComponent ? <IconComponent className="h-4 w-4" /> : null}
                   isCollapsed={isCollapsed}
                   color={type.color}
+                  badge={isPro && !isCollapsed ? (
+                    <Badge 
+                      variant="outline" 
+                      className="ml-auto text-[9px] h-4 px-1 font-bold border-primary/20 text-primary/70 bg-primary/5 uppercase tracking-tighter"
+                    >
+                      PRO
+                    </Badge>
+                  ) : null}
                 />
               );
             })}
@@ -220,7 +231,8 @@ function SidebarItem({
   isActive, 
   isCollapsed,
   color,
-  className
+  className,
+  badge
 }: { 
   href: string; 
   icon: React.ReactNode; 
@@ -229,6 +241,7 @@ function SidebarItem({
   isCollapsed?: boolean;
   color?: string;
   className?: string;
+  badge?: React.ReactNode;
 }) {
   return (
     <Link 
@@ -252,7 +265,9 @@ function SidebarItem({
         <div className="h-4 w-4 shrink-0" />
       )}
       
-      {!isCollapsed && <span className="truncate">{label}</span>}
+      {!isCollapsed && <span className="flex-1 truncate">{label}</span>}
+      
+      {badge}
       
       {isCollapsed && (
         <div className="absolute left-full ml-4 px-3 py-1.5 bg-popover text-popover-foreground text-xs font-semibold rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all z-50 shadow-xl border border-border whitespace-nowrap translate-x-[-10px] group-hover:translate-x-0">

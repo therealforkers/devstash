@@ -1,27 +1,19 @@
-# Current Feature
-
-Stats & Sidebar Integration
+# Current Feature: Add Pro Badge To Sidebar
 
 ## Status
 
-Completed
+In Progress
 
 ## Goals
 
-- Display stats pertaining to database data, keeping the current design/layout (Done)
-- Display item types in sidebar with their icons, linking to `/items/[typename]` (Done)
-- Add "View all collections" link under the collections list that goes to `/collections` (Done)
-- Keep the star icons for favorite collections but for recents, each collection should show a colored circle based on the most-used item type in that collection (Done)
-- Add necessary database functions to `src/lib/db/items.ts` and `src/lib/db/collections.ts` if missing (Done)
-
-## Description
-
-Integrate real-time statistics from the database into the dashboard header. Update the sidebar to show system item types and live collection data. Enhance collection lists in the sidebar with dynamic indicators (colored circles) based on the most-used item type within each collection, and provide navigation to the full collections view.
+- Add PRO badge to the files and the image types in the sidebar
+- Use ShadCN UI badge component
+- Make it clean and subtle
+- Make PRO all in uppercase
 
 ## Notes
 
-- Demo user: `demo@devstash.io`
-- Reference: `src/context/features/stats-sidebar-spec.md`
+- Reference: `src/context/features/add-pro-badge-spec.md`
 
 ## History
 
