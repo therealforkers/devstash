@@ -111,7 +111,8 @@ export function Sidebar({
           {!isCollapsed && <h3 className="px-3 text-[11px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em] mb-3">Library</h3>}
           <nav className="space-y-1">
             {sortedItemTypes.map((type) => {
-              const IconComponent = (LucideIcons as Record<string, React.ElementType>)[type.icon];
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const IconComponent = (LucideIcons as Record<string, any>)[type.icon || 'File'];
               const label = typeNameMap[type.name.toLowerCase()] || type.name;
               const isPro = ['file', 'image'].includes(type.name.toLowerCase());
               
@@ -122,7 +123,7 @@ export function Sidebar({
                   label={label}
                   icon={IconComponent ? <IconComponent className="h-4 w-4" /> : null}
                   isCollapsed={isCollapsed}
-                  color={type.color}
+                  color={type.color ?? undefined}
                   badge={isPro && !isCollapsed ? (
                     <Badge 
                       variant="outline" 

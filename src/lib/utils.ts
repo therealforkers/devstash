@@ -12,14 +12,14 @@ export function getCollectionTheme(collection: Collection) {
   }
 
   const typeCounts: Record<string, number> = {};
-  collection.items.forEach((item: Item) => {
+  collection.items.forEach((item) => {
     const typeName = item.type.name;
     typeCounts[typeName] = (typeCounts[typeName] || 0) + 1;
   });
 
   const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
   const mostUsedType = sortedTypes[0][0];
-  const itemWithMostUsedType = collection.items.find((i: Item) => i.type.name === mostUsedType);
+  const itemWithMostUsedType = collection.items.find((i) => i.type.name === mostUsedType);
 
   return {
     color: itemWithMostUsedType?.type.color || "#6b7280",

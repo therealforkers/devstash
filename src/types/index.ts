@@ -1,4 +1,4 @@
-import { Collection as PrismaCollection, Item as PrismaItem, ItemType as PrismaItemType } from '@prisma/client';
+import { Collection as PrismaCollection, Item as PrismaItem, ItemType as PrismaItemType } from '../generated/prisma/client';
 
 export type ItemType = PrismaItemType;
 
