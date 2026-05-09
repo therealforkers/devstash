@@ -4,14 +4,16 @@ import React, { useState } from 'react';
 import { Sidebar } from '@/components/dashboard/sidebar';
 import { TopBar } from '@/components/dashboard/top-bar';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { User, ItemType, Collection } from '@/types';
 
 interface DashboardLayoutClientProps {
   children: React.ReactNode;
-  user: any;
-  itemTypes: any[];
-  favoriteCollections: any[];
-  otherCollections: any[];
+  user: User;
+  itemTypes: ItemType[];
+  favoriteCollections: Collection[];
+  otherCollections: Collection[];
 }
+
 
 export function DashboardLayoutClient({
   children,

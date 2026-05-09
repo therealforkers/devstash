@@ -1,24 +1,25 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Collection, Item } from "@/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getCollectionTheme(collection: any) {
+export function getCollectionTheme(collection: Collection) {
   if (!collection.items || collection.items.length === 0) {
     return { color: "#6b7280", hex: "#6b7280" };
   }
 
   const typeCounts: Record<string, number> = {};
-  collection.items.forEach((item: any) => {
+  collection.items.forEach((item: Item) => {
     const typeName = item.type.name;
     typeCounts[typeName] = (typeCounts[typeName] || 0) + 1;
   });
 
   const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
   const mostUsedType = sortedTypes[0][0];
-  const itemWithMostUsedType = collection.items.find((i: any) => i.type.name === mostUsedType);
+  const itemWithMostUsedType = collection.items.find((i: Item) => i.type.name === mostUsedType);
 
   return {
     color: itemWithMostUsedType?.type.color || "#6b7280",
@@ -26,3 +27,4 @@ export function getCollectionTheme(collection: any) {
     icon: itemWithMostUsedType?.type.icon,
   };
 }
+

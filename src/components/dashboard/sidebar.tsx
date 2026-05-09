@@ -17,15 +17,20 @@ import { cn, getCollectionTheme } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { User, ItemType, Collection } from '@/types';
+
+const DEFAULT_SORT_INDEX = 99;
+const SIDEBAR_WIDTH_EXPANDED = "w-64";
+const SIDEBAR_WIDTH_COLLAPSED = "w-[70px]";
 
 interface SidebarProps {
   className?: string;
   isCollapsed?: boolean;
   onToggle?: () => void;
-  user: any;
-  itemTypes: any[];
-  favoriteCollections: any[];
-  otherCollections: any[];
+  user: User;
+  itemTypes: ItemType[];
+  favoriteCollections: Collection[];
+  otherCollections: Collection[];
 }
 
 export function Sidebar({ 
@@ -54,13 +59,13 @@ export function Sidebar({
   const sortedItemTypes = [...itemTypes].sort((a, b) => {
     const indexA = typeOrder.indexOf(a.name.toLowerCase());
     const indexB = typeOrder.indexOf(b.name.toLowerCase());
-    return (indexA > -1 ? indexA : 99) - (indexB > -1 ? indexB : 99);
+    return (indexA > -1 ? indexA : DEFAULT_SORT_INDEX) - (indexB > -1 ? indexB : DEFAULT_SORT_INDEX);
   });
 
   return (
     <aside className={cn(
       "bg-card border-r border-border flex flex-col transition-all duration-300 ease-in-out relative z-30",
-      isCollapsed ? "w-[70px]" : "w-64",
+      isCollapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH_EXPANDED,
       className
     )}>
       {/* Toggle Button (Desktop only) */}
@@ -106,7 +111,7 @@ export function Sidebar({
           {!isCollapsed && <h3 className="px-3 text-[11px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em] mb-3">Library</h3>}
           <nav className="space-y-1">
             {sortedItemTypes.map((type) => {
-              const IconComponent = (LucideIcons as any)[type.icon];
+              const IconComponent = (LucideIcons as Record<string, any>)[type.icon];
               const label = typeNameMap[type.name.toLowerCase()] || type.name;
               const isPro = ['file', 'image'].includes(type.name.toLowerCase());
               

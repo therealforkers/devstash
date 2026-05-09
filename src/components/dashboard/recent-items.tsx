@@ -3,7 +3,9 @@ import { Code, Sparkles, StickyNote, Terminal, File, Image as ImageIcon, Link as
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 
-const iconMap: Record<string, any> = {
+import * as LucideIcons from "lucide-react";
+
+const iconMap: Record<string, LucideIcons.LucideIcon> = {
   Code,
   Sparkles,
   Terminal,
@@ -12,6 +14,7 @@ const iconMap: Record<string, any> = {
   Image: ImageIcon,
   Link: LinkIcon,
 };
+
 
 export async function RecentItems() {
   const user = await getDemoUser();

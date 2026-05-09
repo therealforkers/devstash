@@ -4,11 +4,13 @@ import { Search, Plus, Bell, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { User } from '@/types';
 
 interface TopBarProps {
   onMenuClick?: () => void;
-  user: any;
+  user: User;
 }
+
 
 export function TopBar({ onMenuClick, user }: TopBarProps) {
   return (

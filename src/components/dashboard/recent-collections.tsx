@@ -6,7 +6,10 @@ import { Folder, MoreVertical, Code, Sparkles, Terminal, StickyNote, File, Image
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 
-const iconMap: Record<string, any> = {
+import { Collection } from "@/types";
+import * as LucideIcons from "lucide-react";
+
+const iconMap: Record<string, LucideIcons.LucideIcon> = {
   Code,
   Sparkles,
   Terminal,
@@ -15,6 +18,7 @@ const iconMap: Record<string, any> = {
   Image: ImageIcon,
   Link: LinkIcon,
 };
+
 
 export async function RecentCollections() {
   const user = await getDemoUser();
@@ -35,7 +39,7 @@ export async function RecentCollections() {
           const theme = getCollectionTheme(collection);
           
           // Get unique type icons in this collection
-          const uniqueTypes = Array.from(new Set(collection.items.map((i: any) => i.type.name)));
+          const uniqueTypes = Array.from(new Set(collection.items.map((i) => i.type.name)));
           
           return (
             <Card 
@@ -61,8 +65,8 @@ export async function RecentCollections() {
                   </div>
                   
                   <div className="flex flex-wrap gap-1 justify-end max-w-[100px]">
-                    {uniqueTypes.map((typeName: any) => {
-                      const item = collection.items.find((i: any) => i.type.name === typeName);
+                    {uniqueTypes.map((typeName) => {
+                      const item = collection.items.find((i) => i.type.name === typeName);
                       const Icon = iconMap[item?.type.icon || 'File'] || File;
                       return (
                         <div 
