@@ -6,9 +6,7 @@ import { Folder, MoreVertical, Code, Sparkles, Terminal, StickyNote, File, Image
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 
-import { Collection } from "@/types";
 import * as LucideIcons from "lucide-react";
-
 const iconMap: Record<string, LucideIcons.LucideIcon> = {
   Code,
   Sparkles,

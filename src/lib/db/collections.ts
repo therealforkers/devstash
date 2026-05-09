@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { getCollectionTheme } from "@/lib/utils";
 
 export async function getRecentCollections(userId: string, limit = 6) {
   return prisma.collection.findMany({

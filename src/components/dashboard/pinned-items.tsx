@@ -4,7 +4,7 @@ import { Pin, Code, Sparkles, StickyNote, Terminal, File, Image as ImageIcon, Li
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, React.ElementType> = {
   Code,
   Sparkles,
   Terminal,

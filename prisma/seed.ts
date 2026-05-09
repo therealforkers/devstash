@@ -1,3 +1,4 @@
+import { ItemType } from '@prisma/client';
 import { prisma } from '../src/lib/prisma';
 import bcrypt from 'bcryptjs';
 
@@ -33,7 +34,7 @@ async function main() {
     { name: 'link', icon: 'Link', color: '#10b981' },
   ];
 
-  const itemTypes: Record<string, any> = {};
+  const itemTypes: Record<string, ItemType> = {};
 
   for (const type of systemItemTypes) {
     const createdType = await prisma.itemType.upsert({
